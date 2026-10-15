@@ -77,6 +77,7 @@ export async function searchActiveListings(
       L_SystemPrice AS price, L_Keyword2 AS beds,
       LM_Dec_3 AS baths, LM_Int2_3 AS sqft,
       L_Type_ AS type, L_Status AS status,
+      PhotoCount AS photoCount,
       AssociationFee AS hoa,
       PoolPrivateYN AS pool, ViewYN AS hasView
     FROM rets_property

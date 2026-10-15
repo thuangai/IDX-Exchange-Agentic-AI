@@ -38,6 +38,7 @@ export function formatCards(
       lines.push(`Closed: ${property.closeDate ?? "Unknown"}`);
     } else {
       lines.push(`HOA fee: ${numberText(property.hoa, true)}`);
+      lines.push(`Photos: ${numberText(property.photoCount)}`);
     }
 
     return lines.join("\n");
