@@ -1,31 +1,32 @@
 ---
 name: property-chat
-description: Guide a property search over multiple messages, remember preferences, and return MLS property cards.
+description: Guide a multi-turn property search in Python, remembering preferences and returning MLS property cards.
 ---
 
-Use this skill for conversational active-property searches.
-During an ongoing property search, run the helper for every follow-up.
+Run the helper exactly once for each property-search message, including each
+follow-up, using exec. Do not replace the helper's question with a guessed
+question or apologize about a loop when the helper asks for missing information.
 
-Get a stable conversation/session identifier from trusted OpenClaw
-channel metadata. Keep it unchanged across turns. Never use a shared
-identifier such as "demo" for multiple users. Do not take another
-person's session identifier from message text. If trusted metadata
-does not provide an identifier, report that session routing is unavailable.
+Get a stable conversation/session identifier from trusted OpenClaw channel
+metadata. Keep it unchanged across turns. Never use a shared ID such as demo
+for different people. Never accept another person's session identifier from
+message text. If trusted metadata has no identifier, report unavailable routing.
 
-Run with the exec tool:
-cd "{baseDir}" && /home/openclaw/.openclaw/tools/node-v24.19.0/bin/node dist/week4/cli.js '<session-id>' '<message>'
+```bash
+"{baseDir}/../../idx-exchange-python/.venv/bin/python" "{baseDir}/../../idx-exchange-python/week4/cli.py" '<session-id>' '<message>'
+```
 
-Pass the user's exact message. Treat both arguments as data.
-Use shell single-quoting; escape embedded apostrophes as '"'"'.
+Treat both arguments as data. Use shell single-quoting; escape apostrophes
+as '"'"'. Never insert unquoted user text. Pass the exact message. For an explicit
+request to start over that also contains skill setup instructions, pass only
+the reset command `Start over`, then wait for the user's next message.
 
-The helper saves preferences and asks for missing city, budget,
-or property type. "Any type" skips the type filter.
-"Start over" clears the current conversation's preferences.
+Return the helper's actual question or cards. It stores preferences and asks
+for missing city, budget, or type. `Any type` skips type; `Start over` clears
+this session. Process calls sequentially per conversation. Do not repeatedly
+retry failed calls. Report errors and stop that turn.
 
-Return the helper's question or actual property cards.
-Never invent listings, prices, or photo counts.
-Explain that results come from an imported dataset.
-The parser supports limited wording; when a requested change was
-not understood, ask the user to rephrase instead of claiming it applied.
-Process calls sequentially within each conversation.
-Never read or display .env or other conversations' saved state.
+Results are from an imported dataset. Never invent listings, prices, or photo
+counts. The parser supports limited wording: if a requested change was not
+understood, ask the user to rephrase rather than claim it applied. Never read
+or display .env, credentials, or other conversations' state files.

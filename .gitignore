@@ -7,3 +7,8 @@ data/
 .venv/
 __pycache__/
 node_modules/
+venv/
+*.py[cod]
+.pytest_cache/
+dist/
+*.tmp
