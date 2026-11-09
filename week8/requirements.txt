@@ -1,0 +1,4 @@
+pypdf
+google-genai==2.33.0
+numpy
+python-dotenv
